@@ -16,8 +16,6 @@ WORKDIR /opt/get_iplayer
 ADD run.sh .
 Add logo.txt .
 
-VOLUME ${OUTPUT_DIR}
-
 # Create the user
 RUN addgroup -g 1000 ${USER_NAME} \
   && adduser -u 1000 -G ${USER_NAME} -s /bin/sh -D ${USER_NAME}
@@ -46,11 +44,13 @@ RUN rm ./AtomicParsley \
   && rm ./get_iplayer \
   && rm ./get_iplayer.cgi \
   && chmod 755 ./run.sh \
+  && mkdir -p ${OUTPUT_DIR} \
+  && chown ${USER_NAME}:${USER_NAME} ${OUTPUT_DIR} \
   && mkdir -p ${CONFIG_DIR} \
   && chown ${USER_NAME}:${USER_NAME} ${CONFIG_DIR}
 
 USER ${USER_NAME}
 
 EXPOSE 8181
-
+VOLUME /config /downloads /archived
 ENTRYPOINT [ "./run.sh" ]

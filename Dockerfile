@@ -14,7 +14,9 @@ ENV CONFIG_DIR=/opt/config
 WORKDIR /opt/get_iplayer
 
 ADD run.sh .
-Add logo.txt .
+ADD logo.txt .
+
+COPY scripts .
 
 # Create the user
 RUN addgroup -g 1000 ${USER_NAME} \
@@ -34,7 +36,7 @@ RUN apk add --no-cache perl-libwww perl-lwp-protocol-https perl-mojolicious perl
 # Install get_iplayer
 RUN curl -LO ${GET_IPLAYER_URL} \
   && install -m 755 ./get_iplayer /usr/local/bin
- 
+
 # Install get_iplayer web gui
 RUN curl -LO ${GET_IPLAYER_CGI_URL} \
   && install -m 755 ./get_iplayer.cgi /usr/local/bin
@@ -47,7 +49,8 @@ RUN rm ./AtomicParsley \
   && mkdir -p ${OUTPUT_DIR} \
   && chown ${USER_NAME}:${USER_NAME} ${OUTPUT_DIR} \
   && mkdir -p ${CONFIG_DIR} \
-  && chown ${USER_NAME}:${USER_NAME} ${CONFIG_DIR}
+  && chown ${USER_NAME}:${USER_NAME} ${CONFIG_DIR} \
+  && chown -R ${USER_NAME}:${USER_NAME} "/opt/get_iplayer"
 
 USER ${USER_NAME}
 

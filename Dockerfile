@@ -1,5 +1,6 @@
 FROM alpine:latest
 
+LABEL version="3.22"
 LABEL maintainer="Simon Emms <simon@simonemms.com>"
 
 ARG ATOMIC_PARSLEY_URL="https://bitbucket.org/shield007/atomicparsley/raw/68337c0c05ec4ba2ad47012303121aaede25e6df/downloads/build_linux_x86_64/AtomicParsley"
